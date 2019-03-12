@@ -5,17 +5,17 @@ const Task = ({
   description,
   accepted,
   toggle,
-  onDragStart,
-  onDrop
+  // onDragStart,
+  // onDrop
 }) => (
   <div
     key={title}
-    draggable
-    onDragEnter={e => e.preventDefault()}
-    onDragOver={e => e.preventDefault()}
-    onDragStart={onDragStart}
-    onDrop={onDrop}
-		style={{cursor: 'grab'}}
+    // draggable
+    // onDragEnter={e => e.preventDefault()}
+    // onDragOver={e => e.preventDefault()}
+    // onDragStart={onDragStart}
+    // onDrop={onDrop}
+		// style={{cursor: 'grab'}}
     className="uk-container uk-card uk-card-default uk-card-body uk-margin-top uk-width-large uk-padding-small"
   >
     <h2 className="uk-margin-remove">{title}</h2>

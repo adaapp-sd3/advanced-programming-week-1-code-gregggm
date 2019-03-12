@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import Task from './Task';
+import reducer from './reducer';
 
 const taskData = [
   { id: 1, title: 'Do stuff', description: 'Do the stuff', accepted: true },
@@ -33,14 +34,14 @@ const makeReorderable = (list, setList) => {
 }
 
 const App = () => {
-	const [tasks, setTasks] = useState(taskData);
-	const [onDragStart, onDrop] = makeReorderable(tasks, setTasks);
+	const [state, dispatch] = useReducer(reducer, taskData);
+	// const [onDragStart, onDrop] = makeReorderable(tasks, setTasks);
 
-  const toggleAccepted = (tasks, index) => () => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].accepted = !tasks[index].accepted;
-    setTasks(updatedTasks);
-  };
+  // const toggleAccepted = (tasks, index) => () => {
+  //   const updatedTasks = [...tasks];
+  //   updatedTasks[index].accepted = !tasks[index].accepted;
+  //   setTasks(updatedTasks);
+  // };
 
   return (
     <div className="">
@@ -63,17 +64,20 @@ const App = () => {
         </div>
       </nav>
       <main className="">
-        {tasks.map((task, index) => (
+        {state.map(task => {
+					return (
           <Task
 						key={task.id}
             title={task.title}
             description={task.description}
             accepted={task.accepted}
-            toggle={toggleAccepted(tasks, index)}
-						onDragStart={onDragStart(index)}
-						onDrop={onDrop(index)}
+            toggle={() => {
+							dispatch({ type: 'TOGGLE', payload: task.id })}
+							}
+						// onDragStart={onDragStart(index)}
+						// onDrop={onDrop(index)}
           />
-        ))}
+        )})}
       </main>
     </div>
   );
