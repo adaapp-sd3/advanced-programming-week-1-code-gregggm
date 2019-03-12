@@ -17,8 +17,24 @@ const taskData = [
   }
 ];
 
+const makeReorderable = (list, setList) => {
+	let active = null;
+
+	const onDragStart = (index) => () => active = index;
+
+	const onDrop = (index) => () => {
+		const newList = [...list];
+		const movedItem = newList.splice(active, 1)[0];
+		newList.splice(index, 0, movedItem);
+		setList(newList);
+	}
+
+	return [onDragStart, onDrop]
+}
+
 const App = () => {
-  const [tasks, setTasks] = useState(taskData);
+	const [tasks, setTasks] = useState(taskData);
+	const [onDragStart, onDrop] = makeReorderable(tasks, setTasks);
 
   const toggleAccepted = (tasks, index) => () => {
     const updatedTasks = [...tasks];
@@ -54,6 +70,8 @@ const App = () => {
             description={task.description}
             accepted={task.accepted}
             toggle={toggleAccepted(tasks, index)}
+						onDragStart={onDragStart(index)}
+						onDrop={onDrop(index)}
           />
         ))}
       </main>
